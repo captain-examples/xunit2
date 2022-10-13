@@ -7,7 +7,7 @@ Starting from a [simple workflow that runs xunit][workflow-before-captain], we w
 Ensure your project includes the [`XunitXml.TestLogger`](https://www.nuget.org/packages/XunitXml.TestLogger) test logger
 
 ```sh
-dotnet add package XunitXml.TestLogger --version 3.0.70`
+dotnet add package XunitXml.TestLogger --version 3.0.70
 ```
 
 And use it with `xunit test --logger xunit`. Note: you can also change the outputted filename.
