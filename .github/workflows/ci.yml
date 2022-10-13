@@ -12,4 +12,19 @@ jobs:
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0.x'
-      - run: dotnet test
+      - run: dotnet test --logger "xunit;LogFileName=TestResults.xml" --results-directory "TestResults"
+      - name: Upload test results to Captain
+        uses: rwx-research/upload-captain-artifact@v1
+        if: always()
+        continue-on-error: true
+        with:
+          artifacts: |
+            [
+              {
+                "name": "xUnit",
+                "path": "TestResults/TestResults.xml",
+                "kind": "test_results",
+                "parser": "xunit_dot_net_xml"
+              }
+            ]
+          captain-token: '${{ secrets.CAPTAIN_API_TOKEN }}'
