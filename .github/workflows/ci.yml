@@ -1,4 +1,4 @@
-name: 'captain CI example'
+name: 'Captain CI example'
 on:
   pull_request:
   push:
@@ -12,19 +12,12 @@ jobs:
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0.x'
-      - run: dotnet test --logger "xunit;LogFileName=TestResults.xml" --results-directory "TestResults"
-      - name: Upload test results to Captain
-        uses: rwx-research/upload-captain-artifact@v1
-        if: always()
-        continue-on-error: true
-        with:
-          artifacts: |
-            [
-              {
-                "name": "xUnit",
-                "path": "TestResults/TestResults.xml",
-                "kind": "test_results",
-                "parser": "xunit_dot_net_xml"
-              }
-            ]
-          captain-token: '${{ secrets.CAPTAIN_API_TOKEN }}'
+      - uses: rwx-research/setup-captain@v1
+      - name: Run tests
+        run: |
+          captain run \
+            --suite-id captian-examples-xunit2 \
+            --test-results TestResults/TestResults.xml \
+            -- dotnet test --logger "xunit;LogFileName=TestResults.xml" --results-directory "TestResults"
+        env:
+          RWX_ACCESS_TOKEN: ${{ secrets.RWX_ACCESS_TOKEN }}
