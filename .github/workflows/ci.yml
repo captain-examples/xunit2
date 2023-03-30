@@ -14,10 +14,6 @@ jobs:
           dotnet-version: '6.0.x'
       - uses: rwx-research/setup-captain@v1
       - name: Run tests
-        run: |
-          captain run \
-            --suite-id captian-examples-xunit2 \
-            --test-results TestResults/TestResults.xml \
-            -- dotnet test --logger "xunit;LogFileName=TestResults.xml" --results-directory "TestResults"
+        run: captain run captian-examples-xunit2
         env:
           RWX_ACCESS_TOKEN: ${{ secrets.RWX_ACCESS_TOKEN }}
